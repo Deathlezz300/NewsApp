@@ -1,25 +1,32 @@
 import newsApi from "../Api/NewsApi"
-import { articuloAll, peticionSources } from "../interfaces/Interfaces";
+import { InSelector, articuloAll, peticionSources } from "../interfaces/Interfaces";
 import { AxiosError ,AxiosResponse} from 'axios'
 import { useDispatch } from "react-redux";
-import { setNews } from "../store/NewsSlice";
+import { setActiveNew, setNews } from "../store/NewsSlice";
 import { useSelector } from "react-redux";
 
 interface useNewsStoreIn{
     startNewsEverything:()=>Promise<peticionSources | undefined>,
-    NewsTodo:articuloAll[]
+    NewsTodo:articuloAll[],
+    activeNew:articuloAll,
+    onSetActiveNew:(id:number)=>void,
+    status:string
 }
 
 export const useNewsStore=():useNewsStoreIn=>{
 
     const dispatch=useDispatch();
 
-    const {NewsTodo}=useSelector(state=>state.news);
+    const {activeNew,NewsTodo,status}:InSelector=useSelector(state=>state.news);
 
     const startNewsEverything=async()=>{
         try{
             const resp:AxiosResponse=await newsApi.get('top-headlines?country=us');
             const data:peticionSources=resp.data;
+            data.articles=data.articles.map((dat,index)=>{
+                dat.source.id=index;
+                return dat;
+            })
             if(data.status==="ok"){
                 dispatch(setNews(data));
                 return data;
@@ -29,9 +36,22 @@ export const useNewsStore=():useNewsStoreIn=>{
         }
     }
 
+    const onSetActiveNew=(id:number)=>{
+        const NewToFind=NewsTodo.find(tod=>{
+            return tod.source.id==id
+        });
+
+        dispatch(setActiveNew(NewToFind));
+        
+    }
+
+
     return{
         startNewsEverything,
-        NewsTodo
+        NewsTodo,
+        activeNew,
+        onSetActiveNew,
+        status
     }
 
 }

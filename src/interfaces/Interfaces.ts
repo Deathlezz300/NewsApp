@@ -18,14 +18,17 @@ export interface articuloAll{
 }
 
 export interface sourceIn{
-    id:string,
+    id:number,
     name:string
 }
 
+export interface InSelector{
+    NewsTodo:articuloAll[],
+    activeNew:articuloAll,
+    status:string
+}
 
-
-
-
-
-
-,
+export interface lenguaje{
+    tipo:string,
+    imagen:string
+}
