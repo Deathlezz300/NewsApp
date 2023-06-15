@@ -1,18 +1,15 @@
-import { useEffect } from "react"
-import { useNewsStore } from "./Hooks/useNewsStore"
+import { Routes,Route, Navigate } from "react-router-dom"
+import { HomePage } from "./News/pages/HomePage"
 
 export const NewsApp = () => {
   
-  const {startNewsEverything}=useNewsStore();
 
-  useEffect(()=>{
-    startNewsEverything();
-  },[])
   
   return (
-    <>
-      <h2>Hola</h2>
-    </>
+    <Routes>
+      <Route path="home" element={<HomePage/>}/>
+      <Route path="/*" element={<Navigate to='/home'/>}/>
+    </Routes>
   )
 }
 

@@ -7,13 +7,13 @@ type payloadIn={
 }
 
 export const NewsSlice = createSlice({
-    name: 'News',
+    name: 'news',
     initialState: {
      NewsTodo:[] as articuloAll[]
     },
     reducers: {
         setNews:(state,{payload}:payloadIn)=>{
-            state.NewsTodo=payload.sources;
+            state.NewsTodo=payload.articles;
         },
     }
 });
