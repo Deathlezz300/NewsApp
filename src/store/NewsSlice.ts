@@ -43,4 +43,4 @@ export const NewsSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { setNews,setActiveNew,setActiveLanguage,changeStateOpciones } = NewsSlice.actions;
+export const { setNews,setActiveNew,setActiveLanguage,changeStateOpciones,setLoading } = NewsSlice.actions;

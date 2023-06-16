@@ -2,7 +2,7 @@ import newsApi from "../Api/NewsApi"
 import { InSelector, articuloAll, lenguaje, peticionSources } from "../interfaces/Interfaces";
 import { AxiosError ,AxiosResponse} from 'axios'
 import { useDispatch } from "react-redux";
-import { changeStateOpciones, setActiveLanguage, setActiveNew, setNews } from "../store/NewsSlice";
+import { changeStateOpciones, setActiveLanguage, setActiveNew, setLoading, setNews } from "../store/NewsSlice";
 import { useSelector } from "react-redux";
 
 interface useNewsStoreIn{
@@ -16,7 +16,7 @@ interface useNewsStoreIn{
     changeMostrarOpcioneState:()=>void,
     OnsetActiveLanguage:(data:lenguaje)=>void,
     startLoadingByLanguage:(bandera:string)=>Promise<void>,
-    LoadingByLanguageAndSearch:(bandera:string,parametro:string)=>Promise<void>
+    LoadingByLanguageAndSearch:(bandera:string,parametro:string)=>Promise<void>,
 }
 
 export const useNewsStore=():useNewsStoreIn=>{
@@ -27,6 +27,7 @@ export const useNewsStore=():useNewsStoreIn=>{
 
     const startNewsEverything=async()=>{
         try{
+            dispatch(setLoading());
             const resp:AxiosResponse=await newsApi.get('top-headlines?pageSize=100&country=us');
             const data:peticionSources=resp.data;
             data.articles=data.articles.map((dat,index)=>{
@@ -42,6 +43,7 @@ export const useNewsStore=():useNewsStoreIn=>{
     }
 
     const startLoadingByLanguage=async(bandera:string)=>{
+        dispatch(setLoading());
         try{
             const resp:AxiosResponse=await newsApi.get(`top-headlines?country=${bandera}`);
             const data:peticionSources=resp.data;
@@ -58,6 +60,7 @@ export const useNewsStore=():useNewsStoreIn=>{
     }
 
     const LoadingByLanguageAndSearch=async(bandera:string,parametro:string)=>{
+        dispatch(setLoading());
         try{
             const resp:AxiosResponse=await newsApi.get(`everything?q=${parametro}&language=${bandera}`);
             const data:peticionSources=resp.data;
