@@ -14,7 +14,7 @@ export const NewsSlice = createSlice({
      activeNew:{} as articuloAll | null,
      status:'not-loading' as string,
      activeLanguage:lenguajes[0] as lenguaje,
-     mostrarOpciones:false as boolean
+     mostrarOpciones:false as boolean,
     },
     reducers: {
         setNews:(state,{payload}:payloadIn)=>{
@@ -37,7 +37,7 @@ export const NewsSlice = createSlice({
         },
         changeStateOpciones:(state)=>{
             state.mostrarOpciones=!state.mostrarOpciones;
-        }
+        },
     }
 });
 

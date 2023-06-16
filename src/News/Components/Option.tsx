@@ -10,14 +10,14 @@ interface props{
 
 export const Option = ({imagen,pais,tipo,decision}:props) => {
 
-   const {changeMostrarOpcioneState,OnsetActiveLanguage,startLoadingByLanguage}=useNewsStore();
+   const {changeMostrarOpcioneState,OnsetActiveLanguage,cambiarImages}=useNewsStore();
    
    const onClickOption=()=>{
      if(decision){
         changeMostrarOpcioneState();
      }else{
         OnsetActiveLanguage({tipo,imagen,pais});
-        startLoadingByLanguage(pais);
+        cambiarImages('reiniciar');
      }
    }
 

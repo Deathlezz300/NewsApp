@@ -11,7 +11,8 @@ export default {
         '18':'repeat(auto-fit,minmax(350px,1fr))'
       },
       fontFamily:{
-        'conden':['Roboto Condensed']
+        'conden':['Roboto Condensed'],
+        'oswa':['Oswald']
       }
     },
   },

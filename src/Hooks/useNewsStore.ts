@@ -4,6 +4,7 @@ import { AxiosError ,AxiosResponse} from 'axios'
 import { useDispatch } from "react-redux";
 import { changeStateOpciones, setActiveLanguage, setActiveNew, setLoading, setNews } from "../store/NewsSlice";
 import { useSelector } from "react-redux";
+import {useState} from 'react'
 
 interface useNewsStoreIn{
     startNewsEverything:()=>Promise<void>,
@@ -17,17 +18,21 @@ interface useNewsStoreIn{
     OnsetActiveLanguage:(data:lenguaje)=>void,
     startLoadingByLanguage:(bandera:string)=>Promise<void>,
     LoadingByLanguageAndSearch:(bandera:string,parametro:string)=>Promise<void>,
+    cantidad:number,
+    cambiarImages:(tipo:'aumentar' | 'reiniciar')=>void
 }
 
 export const useNewsStore=():useNewsStoreIn=>{
 
     const dispatch=useDispatch();
 
+    const [cantidad,Setcantidad]=useState(16);
+
     const {activeNew,NewsTodo,status,activeLanguage,mostrarOpciones}:InSelector=useSelector(state=>state.news);
 
     const startNewsEverything=async()=>{
+        dispatch(setLoading());
         try{
-            dispatch(setLoading());
             const resp:AxiosResponse=await newsApi.get('top-headlines?pageSize=100&country=us');
             const data:peticionSources=resp.data;
             data.articles=data.articles.map((dat,index)=>{
@@ -62,7 +67,8 @@ export const useNewsStore=():useNewsStoreIn=>{
     const LoadingByLanguageAndSearch=async(bandera:string,parametro:string)=>{
         dispatch(setLoading());
         try{
-            const resp:AxiosResponse=await newsApi.get(`everything?q=${parametro}&language=${bandera}`);
+            const url=bandera!='all' ? `everything?q=${parametro}&language=${bandera}` : `everything?q=${parametro}`
+            const resp:AxiosResponse=await newsApi.get(url);
             const data:peticionSources=resp.data;
             data.articles=data.articles.map((dat,index)=>{
                 dat.source.id=index;
@@ -94,6 +100,14 @@ export const useNewsStore=():useNewsStoreIn=>{
         dispatch(setActiveLanguage(data));
     }
 
+    const cambiarImages=(tipo:'aumentar' | 'reiniciar')=>{
+        if(tipo==='aumentar'){
+            Setcantidad(c=>c+6);
+        }else{
+            Setcantidad(16);
+        }
+    }
+
 
     return{
         startNewsEverything,
@@ -106,7 +120,9 @@ export const useNewsStore=():useNewsStoreIn=>{
         changeMostrarOpcioneState,
         OnsetActiveLanguage,
         startLoadingByLanguage,
-        LoadingByLanguageAndSearch
+        LoadingByLanguageAndSearch,
+        cantidad,
+        cambiarImages
     }
 
 }

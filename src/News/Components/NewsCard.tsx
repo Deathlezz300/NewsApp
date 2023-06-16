@@ -15,9 +15,9 @@ export const NewsCard = ({description,autor,title,fecha,urlImage,url}:props) => 
   return (
     <a  href={url} target="_blank" className="bg-white cursor-pointer hover:scale-[1.01] rounded-lg shadow-md w-full px-1 py-3 border-2 flex flex-col gap-1 items-center justify-center">
 
-        <div className="w-[90%] flex flex-col gap-3 justify-center items-center md:flex-row">
+        <div className="w-[90%] flex flex-col gap-3 justify-between items-center md:flex-row">
           <img className="bg-center object-cover bg-no-repeat max-h-[150px] w-[100%] rounded-lg md:w-[50%]" src={urlImage ? urlImage : obtenerImagen(title)} />
-          <h3 className="font-conden text-lg font-semibold text-justify">{title}</h3>
+          <h3 className="font-conden text-lg font-semibold text-center w-[100%] md:w-[50%]">{title}</h3>
         </div>
         
         <div className="flex flex-col justify-center w-[90%] h-auto" >

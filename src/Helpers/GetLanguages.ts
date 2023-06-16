@@ -4,9 +4,15 @@ import arabe from '../assets/images/arabe.webp'
 import aleman from '../assets/images/alemania.png'
 import espanol from '../assets/images/español.avif'
 import francia from '../assets/images/francia.png'
+import todos from '../assets/images/all_paises.png'
 
 export const lenguajes:lenguaje[]=
 [
+    {
+        tipo:'all',
+        pais:'all',
+        imagen:todos
+    },
     {
         tipo:'en',
         pais:'us',

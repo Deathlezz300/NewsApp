@@ -6,7 +6,7 @@ export const LoaderComponent = () => {
 
         <div className="w-[90%] flex flex-col gap-3 justify-center items-center md:flex-row rounded-lg">
           <div className="bg-center object-cover bg-no-repeat h-[150px] w-[100%] rounded-lg md:w-[50%] bg-gray-300" />
-          <div className="w-[100%] h-[80%] bg-gray-300 rounded-lg"></div>
+          <div className="w-[50%] h-[80%] bg-gray-300 rounded-lg"></div>
         </div>
         
         <div className="flex flex-col justify-center w-[90%] h-auto mt-2" >

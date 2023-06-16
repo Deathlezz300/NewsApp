@@ -4,6 +4,8 @@ import lupa from '../../assets/images/lupa.webp'
 import { lenguajes } from "../../Helpers/GetLanguages"
 import { useNewsStore } from "../../Hooks/useNewsStore"
 import { Option } from "./Option"
+import {useEffect} from 'react'
+
 const initialState={
     buscador:''
 }
@@ -12,10 +14,19 @@ export const Header = () => {
   
    const {buscador,onInputChange}=useForm(initialState);
   
-   const {activeLanguage,mostrarOpciones,LoadingByLanguageAndSearch}=useNewsStore();
+   const {activeLanguage,mostrarOpciones,LoadingByLanguageAndSearch,startLoadingByLanguage,cambiarImages}=useNewsStore();
+
+    useEffect(()=>{
+      if(buscador!=''){
+        LoadingByLanguageAndSearch(activeLanguage.tipo,buscador);
+      }else{
+        startLoadingByLanguage(activeLanguage.pais);
+      }
+    },[activeLanguage])
 
     const onBuscar=(evento:FormEvent<HTMLFormElement>)=>{
         evento.preventDefault();
+        cambiarImages('reiniciar');
         LoadingByLanguageAndSearch(activeLanguage.tipo,buscador);
     }
 
