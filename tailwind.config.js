@@ -7,7 +7,8 @@ export default {
   theme: {
     extend: {
       gridTemplateColumns:{
-        '16':'repeat(auto-fit,minmax(250px,1fr))'
+        '16':'repeat(auto-fit,minmax(450px,1fr))',
+        '18':'repeat(auto-fit,minmax(350px,1fr))'
       },
       fontFamily:{
         'conden':['Roboto Condensed']

@@ -32,5 +32,6 @@ export interface InSelector{
 
 export interface lenguaje{
     tipo:string,
+    pais:string
     imagen:string
 }

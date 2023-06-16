@@ -9,21 +9,26 @@ export const lenguajes:lenguaje[]=
 [
     {
         tipo:'en',
+        pais:'us',
         imagen:ingles
     },
     {
         tipo:'ar',
+        pais:'sa',
         imagen:arabe
     },
     {
         tipo:'de',
+        pais:'de',
         imagen:aleman
     },
     {
         tipo:'es',
+        pais:'ar',
         imagen:espanol
     },{
         tipo:'fr',
+        pais:'fr',
         imagen:francia
     }
 ];

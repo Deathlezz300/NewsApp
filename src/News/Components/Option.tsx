@@ -3,19 +3,21 @@ import { useNewsStore } from "../../Hooks/useNewsStore"
 interface props{
     imagen:string,
     tipo:string,
+    pais:string,
     decision:boolean
 }
 
 
-export const Option = ({imagen,tipo,decision}:props) => {
+export const Option = ({imagen,pais,tipo,decision}:props) => {
 
-   const {changeMostrarOpcioneState,OnsetActiveLanguage}=useNewsStore();
+   const {changeMostrarOpcioneState,OnsetActiveLanguage,startLoadingByLanguage}=useNewsStore();
    
    const onClickOption=()=>{
      if(decision){
         changeMostrarOpcioneState();
      }else{
-        OnsetActiveLanguage({tipo,imagen});
+        OnsetActiveLanguage({tipo,imagen,pais});
+        startLoadingByLanguage(pais);
      }
    }
 

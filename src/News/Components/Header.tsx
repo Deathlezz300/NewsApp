@@ -12,19 +12,19 @@ export const Header = () => {
   
    const {buscador,onInputChange}=useForm(initialState);
   
-   const {activeLanguage,mostrarOpciones}=useNewsStore();
+   const {activeLanguage,mostrarOpciones,LoadingByLanguageAndSearch}=useNewsStore();
 
     const onBuscar=(evento:FormEvent<HTMLFormElement>)=>{
         evento.preventDefault();
+        LoadingByLanguageAndSearch(activeLanguage.tipo,buscador);
     }
 
     return (
       <section
-        id="form1"
-        onSubmit={onBuscar}
-        className="w-[90%] flex justify-center items-center py-5 gap-3"
+        className=" w-[95%] md:w-[90%] flex justify-center items-center py-5 gap-3"
       >
-        <form className="w-[45%] rounded-lg flex items-center bg-white shadow-md">
+        <form id="form1"
+        onSubmit={onBuscar} className=" lg:w-[55%] md:w-[70%] w-[90%] justify-between rounded-lg flex items-center bg-white shadow-md">
           <input
             placeholder="Ingrese lo que desee buscar"
             className="w-[93%] rounded-lg outline-none p-2"
@@ -34,17 +34,17 @@ export const Header = () => {
             name="buscador"
             value={buscador}
           />
-          <button className="cursor-pointer" form="form1">
+          <button form="form1" type="submit" className="cursor-pointer mr-2">
             <img className="ml-1 w-6" src={lupa} alt="" />
           </button>
         </form>
-        <div className="relative w-[7%]">
-          <Option tipo={activeLanguage.tipo} imagen={activeLanguage.imagen} decision={true}/>
+        <div className="relative">
+          <Option pais={activeLanguage.pais} tipo={activeLanguage.tipo} imagen={activeLanguage.imagen} decision={true}/>
             <div className={`mt-2 flex flex-col absolute w-[100%] transition ease-in-out delay-150 overflow-hidden origin-top 
               ${mostrarOpciones ? 'scale-y-100' : 'scale-y-0'}`}>
                {
                 lenguajes.map((len,index)=>{
-                  return len.tipo!=activeLanguage.tipo ? <Option key={index} imagen={len.imagen} tipo={len.tipo} decision={false}/> : ''
+                  return len.tipo!=activeLanguage.tipo ? <Option pais={len.pais} key={index} imagen={len.imagen} tipo={len.tipo} decision={false}/> : ''
                 })
                }
             </div>

@@ -6,7 +6,7 @@ import { changeStateOpciones, setActiveLanguage, setActiveNew, setNews } from ".
 import { useSelector } from "react-redux";
 
 interface useNewsStoreIn{
-    startNewsEverything:()=>Promise<peticionSources | undefined>,
+    startNewsEverything:()=>Promise<void>,
     NewsTodo:articuloAll[],
     activeNew:articuloAll,
     onSetActiveNew:(id:number)=>void,
@@ -14,7 +14,9 @@ interface useNewsStoreIn{
     activeLanguage:lenguaje,
     mostrarOpciones:boolean,
     changeMostrarOpcioneState:()=>void,
-    OnsetActiveLanguage:(data:lenguaje)=>void
+    OnsetActiveLanguage:(data:lenguaje)=>void,
+    startLoadingByLanguage:(bandera:string)=>Promise<void>,
+    LoadingByLanguageAndSearch:(bandera:string,parametro:string)=>Promise<void>
 }
 
 export const useNewsStore=():useNewsStoreIn=>{
@@ -25,7 +27,7 @@ export const useNewsStore=():useNewsStoreIn=>{
 
     const startNewsEverything=async()=>{
         try{
-            const resp:AxiosResponse=await newsApi.get('top-headlines?country=us');
+            const resp:AxiosResponse=await newsApi.get('top-headlines?pageSize=100&country=us');
             const data:peticionSources=resp.data;
             data.articles=data.articles.map((dat,index)=>{
                 dat.source.id=index;
@@ -33,9 +35,40 @@ export const useNewsStore=():useNewsStoreIn=>{
             })
             if(data.status==="ok"){
                 dispatch(setNews(data));
-                return data;
             }
         }catch(error:AxiosError){
+            console.log(error);
+        }
+    }
+
+    const startLoadingByLanguage=async(bandera:string)=>{
+        try{
+            const resp:AxiosResponse=await newsApi.get(`top-headlines?country=${bandera}`);
+            const data:peticionSources=resp.data;
+            data.articles=data.articles.map((dat,index)=>{
+                dat.source.id=index;
+                return dat;
+            })
+            if(data.status==="ok"){
+                dispatch(setNews(data));
+            };
+        }catch(error){
+            console.log(error);
+        }
+    }
+
+    const LoadingByLanguageAndSearch=async(bandera:string,parametro:string)=>{
+        try{
+            const resp:AxiosResponse=await newsApi.get(`everything?q=${parametro}&language=${bandera}`);
+            const data:peticionSources=resp.data;
+            data.articles=data.articles.map((dat,index)=>{
+                dat.source.id=index;
+                return dat;
+            })
+            if(data.status==="ok"){
+                dispatch(setNews(data));
+            };
+        }catch(error){
             console.log(error);
         }
     }
@@ -68,7 +101,9 @@ export const useNewsStore=():useNewsStoreIn=>{
         activeLanguage,
         mostrarOpciones,
         changeMostrarOpcioneState,
-        OnsetActiveLanguage
+        OnsetActiveLanguage,
+        startLoadingByLanguage,
+        LoadingByLanguageAndSearch
     }
 
 }
