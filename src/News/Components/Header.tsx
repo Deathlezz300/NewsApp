@@ -2,16 +2,18 @@ import { useForm } from "../../Hooks/useForm"
 import {FormEvent} from 'react'
 import lupa from '../../assets/images/lupa.webp'
 import { lenguajes } from "../../Helpers/GetLanguages"
-import francia from  '../../assets/images/francia.png'
+import { useNewsStore } from "../../Hooks/useNewsStore"
+import { Option } from "./Option"
 const initialState={
-    buscador:'',
-    opcion:'en'
+    buscador:''
 }
 
 export const Header = () => {
   
-   const {buscador,opcion,onInputChange}=useForm(initialState);
+   const {buscador,onInputChange}=useForm(initialState);
   
+   const {activeLanguage,mostrarOpciones}=useNewsStore();
+
     const onBuscar=(evento:FormEvent<HTMLFormElement>)=>{
         evento.preventDefault();
     }
@@ -20,7 +22,7 @@ export const Header = () => {
       <section
         id="form1"
         onSubmit={onBuscar}
-        className="w-[90%] flex justify-center items-center py-5"
+        className="w-[90%] flex justify-center items-center py-5 gap-3"
       >
         <form className="w-[45%] rounded-lg flex items-center bg-white shadow-md">
           <input
@@ -36,22 +38,18 @@ export const Header = () => {
             <img className="ml-1 w-6" src={lupa} alt="" />
           </button>
         </form>
-        {/* <div className="relative inline-block">
-          <div className="p-3 cursor-pointer">
-            Seleccionar
-          </div>
-          <div class="dropdown-menu" id="dropdownMenu">
-            <div class="dropdown-item" onclick="selectOption('Opción 1')">
-              Opción 1
+        <div className="relative w-[7%]">
+          <Option tipo={activeLanguage.tipo} imagen={activeLanguage.imagen} decision={true}/>
+            <div className={`mt-2 flex flex-col absolute w-[100%] transition ease-in-out delay-150 overflow-hidden origin-top 
+              ${mostrarOpciones ? 'scale-y-100' : 'scale-y-0'}`}>
+               {
+                lenguajes.map((len,index)=>{
+                  return len.tipo!=activeLanguage.tipo ? <Option key={index} imagen={len.imagen} tipo={len.tipo} decision={false}/> : ''
+                })
+               }
             </div>
-            <div class="dropdown-item" onclick="selectOption('Opción 2')">
-              Opción 2
-            </div>
-            <div class="dropdown-item" onclick="selectOption('Opción 3')">
-              Opción 3
-            </div>
-          </div>
-        </div> */}
+
+        </div>
       </section>
     );
 }

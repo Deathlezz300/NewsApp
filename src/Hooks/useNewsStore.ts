@@ -1,8 +1,8 @@
 import newsApi from "../Api/NewsApi"
-import { InSelector, articuloAll, peticionSources } from "../interfaces/Interfaces";
+import { InSelector, articuloAll, lenguaje, peticionSources } from "../interfaces/Interfaces";
 import { AxiosError ,AxiosResponse} from 'axios'
 import { useDispatch } from "react-redux";
-import { setActiveNew, setNews } from "../store/NewsSlice";
+import { changeStateOpciones, setActiveLanguage, setActiveNew, setNews } from "../store/NewsSlice";
 import { useSelector } from "react-redux";
 
 interface useNewsStoreIn{
@@ -10,14 +10,18 @@ interface useNewsStoreIn{
     NewsTodo:articuloAll[],
     activeNew:articuloAll,
     onSetActiveNew:(id:number)=>void,
-    status:string
+    status:string,
+    activeLanguage:lenguaje,
+    mostrarOpciones:boolean,
+    changeMostrarOpcioneState:()=>void,
+    OnsetActiveLanguage:(data:lenguaje)=>void
 }
 
 export const useNewsStore=():useNewsStoreIn=>{
 
     const dispatch=useDispatch();
 
-    const {activeNew,NewsTodo,status}:InSelector=useSelector(state=>state.news);
+    const {activeNew,NewsTodo,status,activeLanguage,mostrarOpciones}:InSelector=useSelector(state=>state.news);
 
     const startNewsEverything=async()=>{
         try{
@@ -45,13 +49,26 @@ export const useNewsStore=():useNewsStoreIn=>{
         
     }
 
+    const changeMostrarOpcioneState=()=>{
+        dispatch(changeStateOpciones());
+    }
+
+    const OnsetActiveLanguage=(data:lenguaje)=>{
+        dispatch(changeStateOpciones());
+        dispatch(setActiveLanguage(data));
+    }
+
 
     return{
         startNewsEverything,
         NewsTodo,
         activeNew,
         onSetActiveNew,
-        status
+        status,
+        activeLanguage,
+        mostrarOpciones,
+        changeMostrarOpcioneState,
+        OnsetActiveLanguage
     }
 
 }

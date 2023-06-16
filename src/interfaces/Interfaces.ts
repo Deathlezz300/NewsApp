@@ -25,7 +25,9 @@ export interface sourceIn{
 export interface InSelector{
     NewsTodo:articuloAll[],
     activeNew:articuloAll,
-    status:string
+    status:string,
+    activeLanguage:lenguaje,
+    mostrarOpciones:boolean
 }
 
 export interface lenguaje{
