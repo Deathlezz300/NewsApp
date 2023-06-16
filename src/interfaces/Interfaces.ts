@@ -22,13 +22,6 @@ export interface sourceIn{
     name:string
 }
 
-export interface InSelector{
-    NewsTodo:articuloAll[],
-    activeNew:articuloAll,
-    status:string,
-    activeLanguage:lenguaje,
-    mostrarOpciones:boolean
-}
 
 export interface lenguaje{
     tipo:string,

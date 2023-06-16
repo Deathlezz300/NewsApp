@@ -1,6 +1,5 @@
 import { NewsCard } from "./NewsCard"
 import { useNewsStore } from "../../Hooks/useNewsStore"
-import {useState} from 'react'
 
 export const ListCard = () => {
 

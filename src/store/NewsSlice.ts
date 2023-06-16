@@ -7,27 +7,28 @@ interface payloadIn{
     payload:peticionSources
 }
 
+interface InInitial{
+    NewsTodo:articuloAll[],
+    status:string,
+    activeLanguage:lenguaje,
+    mostrarOpciones:boolean
+}
+
+
+const DataInital:InInitial={
+    NewsTodo:[] as articuloAll[],
+    status:'loading',
+    activeLanguage:lenguajes[0],
+    mostrarOpciones:false,
+}
+
 export const NewsSlice = createSlice({
     name: 'news',
-    initialState: {
-     NewsTodo:[] as articuloAll[],
-     activeNew:{} as articuloAll | null,
-     status:'not-loading' as string,
-     activeLanguage:lenguajes[0] as lenguaje,
-     mostrarOpciones:false as boolean,
-    },
+    initialState:DataInital,
     reducers: {
         setNews:(state,{payload}:payloadIn)=>{
             state.NewsTodo=payload.articles;
             state.status='not-loading';
-        },
-        setActiveNew:(state,{payload}:{payload:articuloAll})=>{
-            if(payload){
-                state.activeNew=payload;
-            }else{
-                state.activeNew=null;
-            }
-            state.status='not-loading'
         },
         setLoading:(state)=>{
             state.status='loading';
@@ -43,4 +44,4 @@ export const NewsSlice = createSlice({
 
 
 // Action creators are generated for each case reducer function
-export const { setNews,setActiveNew,setActiveLanguage,changeStateOpciones,setLoading } = NewsSlice.actions;
+export const { setNews,setActiveLanguage,changeStateOpciones,setLoading } = NewsSlice.actions;

@@ -18,8 +18,9 @@ export const HomePage = () => {
         <Header/>
         {
           status=='loading' ? <ListLoaders/> : <ListCard/>
-        }{
-          NewsTodo.length<=0 && status!='loading' ? <NoResultsPage/> : ''
+        }
+        {
+          NewsTodo.length<=0 && status=='not-loading' ? <NoResultsPage/> : ''
         }
       </section>
       <Footer/>

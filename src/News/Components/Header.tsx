@@ -14,12 +14,13 @@ export const Header = () => {
   
    const {buscador,onInputChange}=useForm(initialState);
   
-   const {activeLanguage,mostrarOpciones,LoadingByLanguageAndSearch,startLoadingByLanguage,cambiarImages}=useNewsStore();
+   const {activeLanguage,mostrarOpciones,status,LoadingByLanguageAndSearch,startLoadingByLanguage,cambiarImages}=useNewsStore();
 
     useEffect(()=>{
       if(buscador!=''){
+        console.log("hola 1")
         LoadingByLanguageAndSearch(activeLanguage.tipo,buscador);
-      }else{
+      }else if(status!='loading'){
         startLoadingByLanguage(activeLanguage.pais);
       }
     },[activeLanguage])

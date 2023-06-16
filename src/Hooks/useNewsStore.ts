@@ -1,16 +1,17 @@
 import newsApi from "../Api/NewsApi"
-import { InSelector, articuloAll, lenguaje, peticionSources } from "../interfaces/Interfaces";
-import { AxiosError ,AxiosResponse} from 'axios'
+import { articuloAll, lenguaje, peticionSources } from "../interfaces/Interfaces";
+import { AxiosResponse } from "axios";
 import { useDispatch } from "react-redux";
-import { changeStateOpciones, setActiveLanguage, setActiveNew, setLoading, setNews } from "../store/NewsSlice";
+import { changeStateOpciones, setActiveLanguage,setLoading,setNews } from "../store/NewsSlice";
 import { useSelector } from "react-redux";
 import {useState} from 'react'
+import { RootState } from "../store/store";
+
+
 
 interface useNewsStoreIn{
     startNewsEverything:()=>Promise<void>,
     NewsTodo:articuloAll[],
-    activeNew:articuloAll,
-    onSetActiveNew:(id:number)=>void,
     status:string,
     activeLanguage:lenguaje,
     mostrarOpciones:boolean,
@@ -28,7 +29,7 @@ export const useNewsStore=():useNewsStoreIn=>{
 
     const [cantidad,Setcantidad]=useState(16);
 
-    const {activeNew,NewsTodo,status,activeLanguage,mostrarOpciones}:InSelector=useSelector(state=>state.news);
+    const {NewsTodo,status,activeLanguage,mostrarOpciones}=useSelector((state:RootState)=>state.news);
 
     const startNewsEverything=async()=>{
         dispatch(setLoading());
@@ -42,7 +43,7 @@ export const useNewsStore=():useNewsStoreIn=>{
             if(data.status==="ok"){
                 dispatch(setNews(data));
             }
-        }catch(error:AxiosError){
+        }catch(error){
             console.log(error);
         }
     }
@@ -82,14 +83,6 @@ export const useNewsStore=():useNewsStoreIn=>{
         }
     }
 
-    const onSetActiveNew=(id:number)=>{
-        const NewToFind=NewsTodo.find(tod=>{
-            return tod.source.id==id
-        });
-
-        dispatch(setActiveNew(NewToFind));
-        
-    }
 
     const changeMostrarOpcioneState=()=>{
         dispatch(changeStateOpciones());
@@ -112,8 +105,6 @@ export const useNewsStore=():useNewsStoreIn=>{
     return{
         startNewsEverything,
         NewsTodo,
-        activeNew,
-        onSetActiveNew,
         status,
         activeLanguage,
         mostrarOpciones,
